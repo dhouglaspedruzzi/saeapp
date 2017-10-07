@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Sae</string>
+    <string name="btn_nova_leitura">Nova Leitura</string>
+
+    <string name="horario">Horário:</string>
+    <string name="reservado_por">Reservado por:</string>
+</resources>
