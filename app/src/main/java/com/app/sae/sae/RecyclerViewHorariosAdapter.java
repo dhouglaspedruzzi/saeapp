@@ -31,9 +31,10 @@ public class RecyclerViewHorariosAdapter extends RecyclerView.Adapter<RecyclerVi
     public void onBindViewHolder(RecyclerViewHorariosViewHolder holder, int position) {
         final String reservado = context.getResources().getString(R.string.reservado_por);
         final String horario = context.getResources().getString(R.string.horario);
+        final Horario objeto = data.get(position);
 
-        holder.responsavel.setText(reservado + " " + data.get(position).getResponsavel());
-        holder.horario.setText(horario + " " + data.get(position).getHoraInicial() + " - " + data.get(position).getHoraFinal());
+        holder.responsavel.setText(reservado + " " + objeto.getResponsavel());
+        holder.horario.setText(horario + " " + objeto.getHoraInicial() + " - " + objeto.getHoraFinal());
     }
 
     @Override

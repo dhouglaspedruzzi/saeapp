@@ -10,7 +10,7 @@
         android:id="@+id/sala_tv"
         android:layout_weight="0.3"
         android:gravity="center"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />

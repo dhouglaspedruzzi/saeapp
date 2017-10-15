@@ -53,8 +53,10 @@ public class HorarioActivity extends AppCompatActivity {
             public void onResponse(Call<List<Horario>> call, Response<List<Horario>> response) {
                 List<Horario> data = response.body();
 
-                if (!data.isEmpty())
-                    alteraEspaco(data.get(0).getEspaco());
+                if (!data.isEmpty()) {
+                    Horario horario = data.get(0);
+                    alteraEspaco(horario.getEspaco(), horario.getDataInicial());
+                }
 
 
                 RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.horarios_rv);
@@ -74,8 +76,8 @@ public class HorarioActivity extends AppCompatActivity {
         });
     }
 
-    public void alteraEspaco(String texto) {
+    public void alteraEspaco(String nomeSala, String data) {
         final String sala = context.getResources().getString(R.string.sala);
-        salaTv.setText(sala + " " + texto);
+        salaTv.setText(sala + " " + nomeSala + " - " + data);
     }
 }
