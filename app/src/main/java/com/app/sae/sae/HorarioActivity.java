@@ -14,6 +14,8 @@ import com.app.sae.sae.rest.ApiUtils;
 import com.app.sae.sae.rest.Horario;
 import com.app.sae.sae.rest.BodyRequest;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import dmax.dialog.SpotsDialog;
@@ -36,12 +38,16 @@ public class HorarioActivity extends AppCompatActivity {
 
         final String id = getIntent().getStringExtra(MainActivity.ESPACO_ID);
 
-        //Long.parseLong(id)
-        //new SimpleDateFormat("yyyy-MM-dd").format(new Date())
-        buscaHorarios(new BodyRequest("2017-03-10", (long) 150));
+        buscaHorarios(new BodyRequest(new SimpleDateFormat("yyyy-MM-dd").format(new Date()), Long.parseLong(id)));
+//        Para testes utilizar este abaixo
+//        buscaHorarios(new BodyRequest("2017-03-10", (long) 150));
     }
 
     public void novaLeitura(View view) {
+        voltar();
+    }
+
+    public void voltar() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
@@ -60,15 +66,19 @@ public class HorarioActivity extends AppCompatActivity {
                 if (!data.isEmpty()) {
                     Horario horario = data.get(0);
                     alteraTitulo(horario.getEspaco(), horario.getDataInicial());
-                }
 
-                preencheLista(data);
+                    preencheLista(data);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Nenhuma informação encontrada para este espaço", Toast.LENGTH_LONG).show();
+                    voltar();
+                }
             }
 
             @Override
             public void onFailure(Call<List<Horario>> call, Throwable t) {
                 dialog.dismiss();
-                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                voltar();
+                Toast.makeText(getApplicationContext(), "Erro ao buscar horários", Toast.LENGTH_LONG).show();
             }
         });
     }
