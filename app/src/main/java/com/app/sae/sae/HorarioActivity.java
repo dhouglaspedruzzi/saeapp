@@ -1,5 +1,7 @@
 package com.app.sae.sae;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +18,7 @@ import com.app.sae.sae.rest.RequestHorario;
 
 import java.util.List;
 
+import dmax.dialog.SpotsDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,6 +27,7 @@ public class HorarioActivity extends AppCompatActivity {
 
     private Context context;
     private TextView salaTv;
+    AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,7 @@ public class HorarioActivity extends AppCompatActivity {
         final String id = getIntent().getStringExtra(MainActivity.ESPACO_ID);
 
         salaTv = (TextView) findViewById(R.id.sala_tv);
+        dialog = new SpotsDialog(this, R.style.Dialog);
 
         //Long.parseLong(id)
         //new SimpleDateFormat("yyyy-MM-dd").format(new Date())
@@ -46,11 +51,13 @@ public class HorarioActivity extends AppCompatActivity {
     }
 
     public void buscaHorarios(RequestHorario requestHorario) {
+        dialog.show();
 
         ApiUtils.getApiService().getHorarios(requestHorario).enqueue(new Callback<List<Horario>>() {
 
             @Override
             public void onResponse(Call<List<Horario>> call, Response<List<Horario>> response) {
+                dialog.dismiss();
                 List<Horario> data = response.body();
 
                 if (!data.isEmpty()) {
@@ -71,6 +78,7 @@ public class HorarioActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Horario>> call, Throwable t) {
+                dialog.dismiss();
                 Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
