@@ -33,6 +33,13 @@ public class RecyclerViewHorariosAdapter extends RecyclerView.Adapter<RecyclerVi
         final String horario = context.getResources().getString(R.string.horario);
         final Horario objeto = data.get(position);
 
+        int background = R.color.colorList1;
+
+        if (numeroPar(position)) {
+            background = R.color.colorList2;
+        }
+
+        holder.view.setBackgroundColor(context.getResources().getColor(background));
         holder.responsavel.setText(reservado + " " + objeto.getResponsavel());
         holder.horario.setText(horario + " " + objeto.getHoraInicial() + " - " + objeto.getHoraFinal());
     }
@@ -40,5 +47,9 @@ public class RecyclerViewHorariosAdapter extends RecyclerView.Adapter<RecyclerVi
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    private boolean numeroPar(int numero) {
+        return (numero % 2 == 0);
     }
 }

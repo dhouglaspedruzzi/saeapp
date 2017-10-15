@@ -8,10 +8,12 @@ public class RecyclerViewHorariosViewHolder extends RecyclerView.ViewHolder{
 
     public TextView responsavel;
     public TextView horario;
+    public View view;
 
     public RecyclerViewHorariosViewHolder(View view) {
         super(view);
-        horario = view.findViewById(R.id.horario);
-        responsavel = view.findViewById(R.id.responsavel);
+        this.view = view;
+        this.horario = view.findViewById(R.id.horario);
+        this.responsavel = view.findViewById(R.id.responsavel);
     }
 }
