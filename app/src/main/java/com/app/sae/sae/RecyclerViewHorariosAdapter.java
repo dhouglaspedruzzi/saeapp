@@ -9,11 +9,13 @@ import android.widget.TextView;
 
 import com.app.sae.sae.rest.Horario;
 
+import java.util.List;
+
 public class RecyclerViewHorariosAdapter extends RecyclerView.Adapter<RecyclerViewHorariosViewHolder> {
-    private Horario[] data;
+    private List<Horario> data;
     private Context context;
 
-    public RecyclerViewHorariosAdapter(Horario[] data, Context context) {
+    public RecyclerViewHorariosAdapter(List<Horario> data, Context context) {
         this.data = data;
         this.context = context;
     }
@@ -30,12 +32,12 @@ public class RecyclerViewHorariosAdapter extends RecyclerView.Adapter<RecyclerVi
         final String reservado = context.getResources().getString(R.string.reservado_por);
         final String horario = context.getResources().getString(R.string.horario);
 
-        holder.responsavel.setText(reservado + " " + data[position].responsavel);
-        holder.horario.setText(horario + " " + data[position].horario_inicial + " - " + data[position].horario_final);
+        holder.responsavel.setText(reservado + " " + data.get(position).getResponsavel());
+        holder.horario.setText(horario + " " + data.get(position).getHoraInicial() + " - " + data.get(position).getHoraFinal());
     }
 
     @Override
     public int getItemCount() {
-        return data.length;
+        return data.size();
     }
 }
