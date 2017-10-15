@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-public class RequestHorario {
+public class BodyRequest {
 
     @SerializedName("data_base")
     private String dataBase;
@@ -12,7 +12,7 @@ public class RequestHorario {
     @SerializedName("espaco_id")
     private Long espacoId;
 
-    public RequestHorario(String dataBase, Long espacoId) {
+    public BodyRequest(String dataBase, Long espacoId) {
         this.dataBase = dataBase;
         this.espacoId = espacoId;
     }

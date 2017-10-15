@@ -7,7 +7,7 @@
     tools:context="com.app.sae.sae.HorarioActivity">
 
     <TextView
-        android:id="@+id/sala_tv"
+        android:id="@+id/titulo"
         android:layout_weight="0.3"
         android:gravity="center"
         android:textSize="20sp"

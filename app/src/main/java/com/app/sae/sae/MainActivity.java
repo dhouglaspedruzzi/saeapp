@@ -36,9 +36,8 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
 
     @Override
     public void handleResult(Result rawResult) {
-        exibirHorarios(rawResult.getText());
-
         mScannerView.resumeCameraPreview(this);
+        exibirHorarios(rawResult.getText());
     }
 
     private void exibirHorarios(String id) {

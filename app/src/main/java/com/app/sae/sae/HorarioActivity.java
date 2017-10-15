@@ -1,8 +1,6 @@
 package com.app.sae.sae;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,7 +12,7 @@ import android.widget.Toast;
 
 import com.app.sae.sae.rest.ApiUtils;
 import com.app.sae.sae.rest.Horario;
-import com.app.sae.sae.rest.RequestHorario;
+import com.app.sae.sae.rest.BodyRequest;
 
 import java.util.List;
 
@@ -25,24 +23,22 @@ import retrofit2.Response;
 
 public class HorarioActivity extends AppCompatActivity {
 
-    private Context context;
-    private TextView salaTv;
-    AlertDialog dialog;
+    private TextView titulo;
+    private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_horario);
-        this.context = this;
+
+        this.titulo = (TextView) findViewById(R.id.titulo);
+        this.dialog = new SpotsDialog(this, R.style.Dialog);
 
         final String id = getIntent().getStringExtra(MainActivity.ESPACO_ID);
 
-        salaTv = (TextView) findViewById(R.id.sala_tv);
-        dialog = new SpotsDialog(this, R.style.Dialog);
-
         //Long.parseLong(id)
         //new SimpleDateFormat("yyyy-MM-dd").format(new Date())
-        buscaHorarios(new RequestHorario("2017-03-10", (long) 150));
+        buscaHorarios(new BodyRequest("2017-03-10", (long) 150));
     }
 
     public void novaLeitura(View view) {
@@ -50,42 +46,45 @@ public class HorarioActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void buscaHorarios(RequestHorario requestHorario) {
+    private void buscaHorarios(BodyRequest bodyRequest) {
         dialog.show();
 
-        ApiUtils.getApiService().getHorarios(requestHorario).enqueue(new Callback<List<Horario>>() {
+        ApiUtils.getApiService().getHorarios(bodyRequest).enqueue(new Callback<List<Horario>>() {
 
             @Override
             public void onResponse(Call<List<Horario>> call, Response<List<Horario>> response) {
                 dialog.dismiss();
+
                 List<Horario> data = response.body();
 
                 if (!data.isEmpty()) {
                     Horario horario = data.get(0);
-                    alteraEspaco(horario.getEspaco(), horario.getDataInicial());
+                    alteraTitulo(horario.getEspaco(), horario.getDataInicial());
                 }
 
-
-                RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.horarios_rv);
-                mRecyclerView.setHasFixedSize(true);
-
-                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
-                mRecyclerView.setLayoutManager(mLayoutManager);
-
-                RecyclerViewHorariosAdapter mAdapter = new RecyclerViewHorariosAdapter(data, context);
-                mRecyclerView.setAdapter(mAdapter);
+                preencheLista(data);
             }
 
             @Override
             public void onFailure(Call<List<Horario>> call, Throwable t) {
                 dialog.dismiss();
-                Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    public void alteraEspaco(String nomeSala, String data) {
-        final String sala = context.getResources().getString(R.string.sala);
-        salaTv.setText(sala + " " + nomeSala + " - " + data);
+    private void alteraTitulo(String nomeSala, String data) {
+        titulo.setText(nomeSala + " - " + data);
+    }
+
+    private void preencheLista(List<Horario> horarios) {
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.horarios_rv);
+        recyclerView.setHasFixedSize(true);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+
+        RecyclerViewHorariosAdapter adapter = new RecyclerViewHorariosAdapter(horarios, getApplicationContext());
+        recyclerView.setAdapter(adapter);
     }
 }
