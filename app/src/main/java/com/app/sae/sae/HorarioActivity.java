@@ -40,10 +40,10 @@ public class HorarioActivity extends AppCompatActivity implements DatePickerDial
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_horario);
 
-        this.dataTitulo = (TextView) findViewById(R.id.dataTitulo);
-        this.espacoTitulo = (TextView) findViewById(R.id.espacoTitulo);
+        dataTitulo = (TextView) findViewById(R.id.dataTitulo);
+        espacoTitulo = (TextView) findViewById(R.id.espacoTitulo);
+        dialog = new SpotsDialog(this, R.style.Dialog);
 
-        this.dialog = new SpotsDialog(this, R.style.Dialog);
         espacoAtualId = getIntent().getStringExtra(MainActivity.ESPACO_ID);
         nomeEspacoAtual = getIntent().getStringExtra(MainActivity.DESCRICAO_ESPACO);
         dataSelecionadaAtual = dateToString(new Date());
