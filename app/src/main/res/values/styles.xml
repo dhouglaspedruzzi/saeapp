@@ -15,4 +15,8 @@
         <item name="android:background">@android:color/white</item>
     </style>
 
+    <style name="Label">
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

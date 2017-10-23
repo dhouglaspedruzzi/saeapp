@@ -1,11 +1,11 @@
 package com.app.sae.sae;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.app.sae.sae.rest.Horario;
 
@@ -40,6 +40,7 @@ public class RecyclerViewHorariosAdapter extends RecyclerView.Adapter<RecyclerVi
         }
 
         holder.view.setBackgroundColor(context.getResources().getColor(background));
+        holder.view.setOnClickListener(new DetalhesOnClickListener(objeto));
         holder.responsavel.setText(reservado + " " + objeto.getResponsavel());
         holder.horario.setText(horario + " " + objeto.getHoraInicial() + " - " + objeto.getHoraFinal());
     }
